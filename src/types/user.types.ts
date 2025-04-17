@@ -1,6 +1,6 @@
-import { TapiTweet } from "./tweet.types";
+import { Tweet } from "./tweet.types";
 
-export type TapiUserResponse = {
+export type User = {
   id: string;
   name: string;
   userName: string;
@@ -23,12 +23,12 @@ export type TapiUserResponse = {
   automatedBy: string | null;
 };
 
-export type TapiUserLastTweetsResponse = {
-  pin_tweet: TapiTweet | null;
-  tweets: TapiTweet[];
+export type UserLastTweetsResponse = {
+  pin_tweet: Tweet | null;
+  tweets: Tweet[];
 };
 
-export type TapiFollower = {
+export type Follower = {
   id: string;
   name: string;
   screen_name: string;

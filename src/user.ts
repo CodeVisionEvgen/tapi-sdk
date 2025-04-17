@@ -6,11 +6,11 @@ import {
 } from "./types/index.types";
 import {
   Following,
-  TapiFollower,
-  TapiUserLastTweetsResponse,
-  TapiUserResponse,
+  Follower,
+  UserLastTweetsResponse,
+  User,
 } from "./types/user.types";
-import { TapiTweet } from "./types/tweet.types";
+import { Tweet } from "./types/tweet.types";
 
 export class TapiUser {
   private readonly apiKey: string;
@@ -37,14 +37,15 @@ export class TapiUser {
     userName: string;
     cursor?: string;
   }) {
-    return this.client.get<
-      TapiPaginationResponse & { followers: TapiFollower[] }
-    >("/followers", {
-      params: {
-        userName,
-        cursor,
-      },
-    });
+    return this.client.get<TapiPaginationResponse & { followers: Follower[] }>(
+      "/followers",
+      {
+        params: {
+          userName,
+          cursor,
+        },
+      }
+    );
   }
 
   /**
@@ -95,7 +96,7 @@ export class TapiUser {
     | { userId: string; userName?: undefined; cursor?: string }
     | { userId?: undefined; userName: string; cursor?: string }) {
     return this.client.get<
-      TapiPaginationResponse & TapiResponseType<TapiUserLastTweetsResponse>
+      TapiPaginationResponse & TapiResponseType<UserLastTweetsResponse>
     >("/last_tweets", {
       params: {
         userId,
@@ -110,7 +111,7 @@ export class TapiUser {
    * @param username The screen name of the user
    */
   getUserInfo(userName: string) {
-    return this.client.get<TapiResponseType<TapiUserResponse | null>>("/info", {
+    return this.client.get<TapiResponseType<User | null>>("/info", {
       params: {
         userName,
       },
@@ -124,7 +125,7 @@ export class TapiUser {
    * Note: For cost optimization, we recommend batching requests when fetching multiple user profiles.
    */
   batchGetUserInfoByUserIds(userIds: number[] | string[]) {
-    return this.client.get<TapiBasicResponse & { users: TapiUserResponse[] }>(
+    return this.client.get<TapiBasicResponse & { users: User[] }>(
       "/batch_info_by_ids",
       {
         params: { userIds: userIds.join(",") },
@@ -146,7 +147,7 @@ export class TapiUser {
     untilTime?: number | string;
     cursor?: string;
   }) {
-    return this.client.get<TapiPaginationResponse & { tweets: TapiTweet[] }>(
+    return this.client.get<TapiPaginationResponse & { tweets: Tweet[] }>(
       "/mentions",
       {
         params: {

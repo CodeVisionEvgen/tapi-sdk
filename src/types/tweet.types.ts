@@ -1,6 +1,6 @@
-import { TapiUser } from "../user";
+import { User } from "./user.types";
 
-export type TapiTweet = {
+export type Tweet = {
   type: string;
   id: string;
   url: string;
@@ -20,7 +20,7 @@ export type TapiTweet = {
   conversationId: string;
   inReplyToUserId: string | null;
   inReplyToUsername: string | null;
-  author: TapiUser;
+  author: User;
   card: any | null;
   place: any;
   quoted_tweet: any | null;
