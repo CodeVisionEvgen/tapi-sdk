@@ -49,3 +49,25 @@ export type TapiFollower = {
   profile_image_url_https: string;
   can_dm: boolean;
 };
+
+export type Following = {
+  id: string;
+  name: string;
+  screen_name: string;
+  location: string | null;
+  url: string | null;
+  description: string;
+  email: string | null;
+  protected: boolean;
+  verified: boolean;
+  followers_count: number;
+  following_count: number;
+  friends_count: number;
+  favourites_count: number;
+  statuses_count: number;
+  media_tweets_count: number;
+  created_at: string;
+  profile_banner_url: string;
+  profile_image_url_https: string;
+  can_dm: boolean;
+};

@@ -1,7 +1,9 @@
 export type TapiResponseType<T> = {
+  data: T;
+} & TapiBasicResponse;
+export type TapiBasicResponse = {
   status: "success" | "error";
   msg: string;
-  data: T;
 };
 
 export type TapiPaginationResponse = {

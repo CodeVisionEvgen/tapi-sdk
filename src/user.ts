@@ -1,10 +1,16 @@
 import axios, { AxiosInstance } from "axios";
-import { TapiPaginationResponse, TapiResponseType } from "./types/index.types";
 import {
+  TapiBasicResponse,
+  TapiPaginationResponse,
+  TapiResponseType,
+} from "./types/index.types";
+import {
+  Following,
   TapiFollower,
   TapiUserLastTweetsResponse,
   TapiUserResponse,
 } from "./types/user.types";
+import { TapiTweet } from "./types/tweet.types";
 
 export class TapiUser {
   private readonly apiKey: string;
@@ -34,6 +40,26 @@ export class TapiUser {
     return this.client.get<
       TapiPaginationResponse & { followers: TapiFollower[] }
     >("/user/followers", {
+      params: {
+        userName,
+        cursor,
+      },
+    });
+  }
+
+  /**
+   * Get user followings. Each page returns exactly 200 followings. Use cursor for pagination.
+   */
+  getUserFollowings({
+    userName,
+    cursor,
+  }: {
+    userName: string;
+    cursor?: string;
+  }) {
+    return this.client.get<
+      TapiPaginationResponse & { followings: Following[] }
+    >("/user/followings", {
       params: {
         userName,
         cursor,
@@ -101,8 +127,38 @@ export class TapiUser {
    * Note: For cost optimization, we recommend batching requests when fetching multiple user profiles.
    */
   batchGetUserInfoByUserIds(userIds: number[] | string[]) {
-    return this.client.get("/user/batch_info_by_ids", {
-      params: { userIds: userIds.join(",") },
-    });
+    return this.client.get<TapiBasicResponse & { users: TapiUserResponse[] }>(
+      "/user/batch_info_by_ids",
+      {
+        params: { userIds: userIds.join(",") },
+      }
+    );
+  }
+
+  /**
+   * get tweet mentions by user screen name. Each page returns exactly 20 mentions. Use cursor for pagination. Order by mention time desc
+   */
+  getUserMentions({
+    userName,
+    sinceTime,
+    untilTime,
+    cursor,
+  }: {
+    userName: string;
+    sinceTime?: number | string;
+    untilTime?: number | string;
+    cursor?: string;
+  }) {
+    return this.client.get<TapiPaginationResponse & { tweets: TapiTweet[] }>(
+      "/user/mentions",
+      {
+        params: {
+          userName,
+          sinceTime,
+          untilTime,
+          cursor,
+        },
+      }
+    );
   }
 }
