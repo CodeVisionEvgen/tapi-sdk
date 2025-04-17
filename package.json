@@ -1,10 +1,11 @@
 {
   "name": "tapi-sdk",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "dev": "tsc -w & node --watch dist/"
+    "dev": "tsc -w & node --watch dist/",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

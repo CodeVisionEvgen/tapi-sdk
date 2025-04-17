@@ -14,7 +14,7 @@ import { TapiTweet } from "./types/tweet.types";
 
 export class TapiUser {
   private readonly apiKey: string;
-  private readonly BASE_URL = "https://api.twitterapi.io/twitter";
+  private readonly BASE_URL = "https://api.twitterapi.io/twitter/user";
   private readonly client: AxiosInstance;
 
   constructor(apiKey: string) {
@@ -39,7 +39,7 @@ export class TapiUser {
   }) {
     return this.client.get<
       TapiPaginationResponse & { followers: TapiFollower[] }
-    >("/user/followers", {
+    >("/followers", {
       params: {
         userName,
         cursor,
@@ -59,7 +59,7 @@ export class TapiUser {
   }) {
     return this.client.get<
       TapiPaginationResponse & { followings: Following[] }
-    >("/user/followings", {
+    >("/followings", {
       params: {
         userName,
         cursor,
@@ -96,7 +96,7 @@ export class TapiUser {
     | { userId?: undefined; userName: string; cursor?: string }) {
     return this.client.get<
       TapiPaginationResponse & TapiResponseType<TapiUserLastTweetsResponse>
-    >("/user/last_tweets", {
+    >("/last_tweets", {
       params: {
         userId,
         userName,
@@ -110,14 +110,11 @@ export class TapiUser {
    * @param username The screen name of the user
    */
   getUserInfo(userName: string) {
-    return this.client.get<TapiResponseType<TapiUserResponse | null>>(
-      "/user/info",
-      {
-        params: {
-          userName,
-        },
-      }
-    );
+    return this.client.get<TapiResponseType<TapiUserResponse | null>>("/info", {
+      params: {
+        userName,
+      },
+    });
   }
 
   /**
@@ -128,7 +125,7 @@ export class TapiUser {
    */
   batchGetUserInfoByUserIds(userIds: number[] | string[]) {
     return this.client.get<TapiBasicResponse & { users: TapiUserResponse[] }>(
-      "/user/batch_info_by_ids",
+      "/batch_info_by_ids",
       {
         params: { userIds: userIds.join(",") },
       }
@@ -150,7 +147,7 @@ export class TapiUser {
     cursor?: string;
   }) {
     return this.client.get<TapiPaginationResponse & { tweets: TapiTweet[] }>(
-      "/user/mentions",
+      "/mentions",
       {
         params: {
           userName,
