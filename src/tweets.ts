@@ -56,7 +56,7 @@ export class TapiTweets {
     queryType,
     cursor,
   }: {
-    cursor: string;
+    cursor?: string;
     query: string;
     queryType: "Latest" | "Top";
   }) {
