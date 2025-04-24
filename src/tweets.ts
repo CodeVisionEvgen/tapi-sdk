@@ -51,6 +51,31 @@ export class TapiTweets {
     });
   }
 
+  advancedSearch({
+    query,
+    queryType,
+    cursor,
+  }: {
+    cursor: string;
+    query: string;
+    queryType: "Latest" | "Top";
+  }) {
+    const localClient = axios.create({
+      ...this.client.defaults,
+      baseURL: "https://api.twitterapi.io/twitter/tweet",
+    });
+
+    return localClient.get<
+      TapiPaginationResponse & TapiBasicResponse & { tweets: Tweet[] }
+    >("/advanced_search", {
+      params: {
+        cursor,
+        query,
+        queryType,
+      },
+    });
+  }
+
   getTweetReplies({
     tweetId,
     sinceTime,
